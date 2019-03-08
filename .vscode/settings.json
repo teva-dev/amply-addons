@@ -1,0 +1,18 @@
+{
+  // Controls whether eslint is enabled for JavaScript files or not.
+  "eslint.enable": false,
+
+  // Use 'prettier-eslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from eslint rules.
+  "prettier.eslintIntegration": true,
+
+  // A list of languages IDs to disable this extension on
+	"prettier.disableLanguages": ["vue"],
+	
+	// Control whether phpcs is enabled for PHP files or not.
+	"phpcs.enable": true,
+	
+	// Optional. The name or path of the coding standard to use. Defaults to the one set in phpcs global config.
+	"phpcs.standard": "wordpress",
+
+	// "phpcs.ignorePatterns": ["amply-addons.php"],
+}
