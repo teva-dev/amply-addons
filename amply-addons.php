@@ -38,7 +38,22 @@ final class Amply_Addons {
 	 * @var     object
 	 * @access  private
 	 */
-	private static $instance = null;
+	private static $_instance = null;
+
+	/**
+	 * Main Amply_Addons Instance
+	 *
+	 * Ensures only one instance of Amply_Addons is loaded or can be loaded.
+	 *
+	 * @static
+	 * @return Object Amply_Addons instance
+	 */
+	public static function get_instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
 
 	/**
 	 * Constructor
@@ -53,23 +68,38 @@ final class Amply_Addons {
 		define( 'AMPLY_ADDONS_URL', $this->plugin_url );
 		define( 'AMPLY_ADDONS_PATH', $this->plugin_path );
 
+		register_activation_hook( __FILE__, array( $this, 'install' ) );
+
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
+
+		// Features executed only if Amply or a child theme using Amply as a parent is active.
+		$theme = wp_get_theme();
+		if ( 'Amply' == $theme->name || 'Amply' == $theme->template ) {
+
+			// Add theme panel.
+			require_once( AMPLY_ADDONS_PATH .'/includes/theme-panel/class-amply-addons-theme-panel.php' );
+
+			// Add section templates.
+			require_once( AMPLY_ADDONS_PATH .'/includes/section-templates/class-amply-addons-section-templates.php' );
+
+		}
 
 	}
 
 	/**
-	 * Main Amply_Addons Instance
-	 *
-	 * Ensures only one instance of Amply_Addons is loaded or can be loaded.
-	 *
-	 * @static
-	 * @return Object Amply_Addons instance
+	 * Plugin installation.
+	 * Runs on activation: Logs the version number.
 	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
+	public function install() {
+		$this->_log_version_number();
+	}
+
+	/**
+	 * Log the plugin version number.
+	 */
+	private function _log_version_number() {
+		// Log the version number.
+		update_option( $this->plugin_name . '-version', $this->plugin_version );
 	}
 
 	/**

@@ -14,5 +14,5 @@
 	// Optional. The name or path of the coding standard to use. Defaults to the one set in phpcs global config.
 	"phpcs.standard": "wordpress",
 
-	// "phpcs.ignorePatterns": ["amply-addons.php"],
+	"phpcs.ignorePatterns": ["amply-addons.php"],
 }
